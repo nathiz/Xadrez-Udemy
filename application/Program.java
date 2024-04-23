@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import chess.ChessException;
@@ -12,13 +14,13 @@ public class Program {
 		
 		Scanner sc = new Scanner(System.in);
 		ChessMatch chessMatch = new ChessMatch();
-		//List<ChessPiece> captured = new ArrayList<>();
+		List<ChessPiece> captured = new ArrayList<>();
 		
 		//Movendo a peça
 		while (true /*!chessMatch.getCheckMate()*/) {
 			try {
 				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces());
+				UI.printMatch(chessMatch, captured);
 				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
@@ -35,10 +37,11 @@ public class Program {
 				//Capturando a peça
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 				
-				/*if (capturedPiece != null) {
+				//Acrescentando a peça capturqda na lista 
+				if (capturedPiece != null) {
 					captured.add(capturedPiece);
 				}
-				
+				/*
 				if (chessMatch.getPromoted() != null) {
 					System.out.print("Enter piece for promotion (B/N/R/Q): ");
 					String type = sc.nextLine().toUpperCase();
