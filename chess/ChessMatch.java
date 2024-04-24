@@ -215,37 +215,44 @@ public class ChessMatch {
 		return capturedPiece;
 	}*/
 	
-	/*private void undoMove(Position source, Position target, Piece capturedPiece) {
+	//Desfaz o movimento caso o movimento seja invalido como se colocar em cheque
+	private void undoMove(Position source, Position target, Piece capturedPiece) {
+		//
 		ChessPiece p = (ChessPiece)board.removePiece(target);
+		//
 		p.decreaseMoveCount();
+		//
 		board.placePiece(p, source);
 		
+		//
 		if (capturedPiece != null) {
+			//
 			board.placePiece(capturedPiece, target);
+			//
 			capturedPieces.remove(capturedPiece);
+			//
 			piecesOnTheBoard.add(capturedPiece);
 		}
 
 		// #specialmove castling kingside rook
-		if (p instanceof King && target.getColumn() == source.getColumn() + 2) {
+		/*if (p instanceof King && target.getColumn() == source.getColumn() + 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
 			Position targetT = new Position(source.getRow(), source.getColumn() + 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(targetT);
 			board.placePiece(rook, sourceT);
 			rook.decreaseMoveCount();
-		}
-
+		}*/		
 		// #specialmove castling queenside rook
-		if (p instanceof King && target.getColumn() == source.getColumn() - 2) {
+		/*if (p instanceof King && target.getColumn() == source.getColumn() - 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
 			Position targetT = new Position(source.getRow(), source.getColumn() - 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(targetT);
 			board.placePiece(rook, sourceT);
 			rook.decreaseMoveCount();
-		}
+		}*/
 		
 		// #specialmove en passant
-		if (p instanceof Pawn) {
+		/*if (p instanceof Pawn) {
 			if (source.getColumn() != target.getColumn() && capturedPiece == enPassantVulnerable) {
 				ChessPiece pawn = (ChessPiece)board.removePiece(target);
 				Position pawnPosition;
@@ -257,8 +264,8 @@ public class ChessMatch {
 				}
 				board.placePiece(pawn, pawnPosition);
 			}
-		}
-	}*/
+		}*/
+	}
 	
 	//Exceção para caso a posição da peça na hora da validação não seja correta
 	private void validateSourcePosition(Position position) {

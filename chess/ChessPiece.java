@@ -29,10 +29,11 @@ public abstract class ChessPiece extends Piece {
 	protected void decreaseMoveCount() {
 		moveCount--;
 	}
-
+	*/
+	//Converte a posição do tabuleiro para a posição do xadrez
 	public ChessPosition getChessPosition() {
 		return ChessPosition.fromPosition(position);
-	}*/
+	}
 	
 	//Verifica se tem uma peça adversaria
 	protected boolean isThereOpponentPiece(Position position) {
