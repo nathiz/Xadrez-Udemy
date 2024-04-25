@@ -23,8 +23,8 @@ public class ChessMatch {
 	private Color currentPlayer;
 	private Board board;
 
-	/*private boolean check;
-	private boolean checkMate;
+	private boolean check;
+	/*private boolean checkMate;
 	private ChessPiece enPassantVulnerable;
 	private ChessPiece promoted;
 	*/
@@ -47,10 +47,11 @@ public class ChessMatch {
 		return currentPlayer;
 	}
 	
-	/*public boolean getCheck() {
+	public boolean getCheck() {
 		return check;
 	}
 	
+	/*
 	public boolean getCheckMate() {
 		return checkMate;
 	}
@@ -91,14 +92,22 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+
+		//Verifica se o rei está em xeque
+		if (testCheck(currentPlayer)) {
+			//Desfaz o movimento
+			undoMove(source, target, capturedPiece);
+			throw new ChessException("You can't put yourself in check");
+		}
+
+		//Verifica se o oponente está em check 
+		check = (testCheck(opponent(currentPlayer))) ? true : false;
+
 		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}	
 		
-		/*if (testCheck(currentPlayer)) {
-			undoMove(source, target, capturedPiece);
-			throw new ChessException("You can't put yourself in check");
-		}
+		/*
 		
 		ChessPiece movedPiece = (ChessPiece)board.piece(target);
 		
@@ -217,22 +226,23 @@ public class ChessMatch {
 	
 	//Desfaz o movimento caso o movimento seja invalido como se colocar em cheque
 	private void undoMove(Position source, Position target, Piece capturedPiece) {
-		//
-		ChessPiece p = (ChessPiece)board.removePiece(target);
-		//
-		p.decreaseMoveCount();
-		//
+		//Tira a peça que foi para o destino
+		Piece p = board.removePiece(target);
+		//Devolve para a posição de origem
 		board.placePiece(p, source);
-		
-		//
+		//Caso uma peça tenha sido capturada
 		if (capturedPiece != null) {
-			//
+			//Pega a peça capturada e coloca de volta no tabuleiro
 			board.placePiece(capturedPiece, target);
-			//
+			//Remove a peça capturada da lista de peças capturadas
 			capturedPieces.remove(capturedPiece);
-			//
+			//Adiciona a peça capturada de volta na lista de peças do tabuleiro
 			piecesOnTheBoard.add(capturedPiece);
 		}
+
+		/*ChessPiece p = (ChessPiece)board.removePiece(target);
+		//
+		p.decreaseMoveCount();
 
 		// #specialmove castling kingside rook
 		/*if (p instanceof King && target.getColumn() == source.getColumn() + 2) {
@@ -295,31 +305,42 @@ public class ChessMatch {
 		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 	
-	/*private Color opponent(Color color) {
+	//Retorna a cor do oponente
+	private Color opponent(Color color) {
 		return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
-	}*/
+	}
 	
-	/*private ChessPiece king(Color color) {
+	//Procura o rei da cor
+	private ChessPiece king(Color color) {
+		//Procura o rei da cor na lista de peças do tabuleiro
 		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+		//Procura o rei
 		for (Piece p : list) {
 			if (p instanceof King) {
 				return (ChessPiece)p;
 			}
 		}
+		//Quando não existe o rei 
 		throw new IllegalStateException("There is no " + color + " king on the board");
-	}*/
+	}
 	
-	/*private boolean testCheck(Color color) {
+	//Verifica se o rei está em xeque
+	private boolean testCheck(Color color) {
+		//Pega a posição do rei no formato matriz 
 		Position kingPosition = king(color).getChessPosition().toPosition();
+		//Pega as peças do oponente
 		List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+		//Pra cada peça na lista do oponente
 		for (Piece p : opponentPieces) {
+			//Movimentos possiveis da peça
 			boolean[][] mat = p.possibleMoves();
+			//Se o rei estiver em um dos movimentos possiveis da peça
 			if (mat[kingPosition.getRow()][kingPosition.getColumn()]) {
 				return true;
 			}
 		}
 		return false;
-	}*/
+	}
 	
 	/*private boolean testCheckMate(Color color) {
 		if (!testCheck(color)) {
