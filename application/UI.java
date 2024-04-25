@@ -67,6 +67,11 @@ public class UI {
 		//Mostra de quem é a vez
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
 		
+		//Avisa que o rei está em xeque
+		if (chessMatch.getCheck()) {
+			System.out.println("CHECK!");
+		}
+		
 		/*if (!chessMatch.getCheckMate()) {
 			//Mostra qual jogador é a vez
 			System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
