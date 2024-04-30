@@ -7,11 +7,7 @@ import java.util.stream.Collectors;
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
-import chess.pieces.Bishop;
 import chess.pieces.King;
-import chess.pieces.Knight;
-import chess.pieces.Pawn;
-import chess.pieces.Queen;
 import chess.pieces.Rook;
 
 //Regras do jogo
@@ -24,7 +20,8 @@ public class ChessMatch {
 	private Board board;
 
 	private boolean check;
-	/*private boolean checkMate;
+	private boolean checkMate;
+	/*
 	private ChessPiece enPassantVulnerable;
 	private ChessPiece promoted;
 	*/
@@ -51,11 +48,10 @@ public class ChessMatch {
 		return check;
 	}
 	
-	/*
 	public boolean getCheckMate() {
 		return checkMate;
 	}
-	
+	/*
 	public ChessPiece getEnPassantVulnerable() {
 		return enPassantVulnerable;
 	}
@@ -342,10 +338,13 @@ public class ChessMatch {
 		return false;
 	}
 	
-	/*private boolean testCheckMate(Color color) {
+	//Teste do checkMate
+	private boolean testCheckMate(Color color) {
+		//Verifica se está em check, se for falso não entra no checkmate
 		if (!testCheck(color)) {
 			return false;
 		}
+		//Todas as peças da cor do check
 		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
 		for (Piece p : list) {
 			boolean[][] mat = p.possibleMoves();
@@ -365,7 +364,7 @@ public class ChessMatch {
 			}
 		}
 		return true;
-	}*/	
+	}	
 	
 	//Recebe coordenadas do xadrez
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
