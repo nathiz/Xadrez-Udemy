@@ -346,11 +346,17 @@ public class ChessMatch {
 		}
 		//Todas as peças da cor do check
 		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+		//Todas as peças da lista 
 		for (Piece p : list) {
+			//Se exister alguma peça que tira do Check e não ta em cheque 
 			boolean[][] mat = p.possibleMoves();
+			//
 			for (int i=0; i<board.getRows(); i++) {
+				//
 				for (int j=0; j<board.getColumns(); j++) {
+					//
 					if (mat[i][j]) {
+						//
 						Position source = ((ChessPiece)p).getChessPosition().toPosition();
 						Position target = new Position(i, j);
 						Piece capturedPiece = makeMove(source, target);
